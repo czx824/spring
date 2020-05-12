@@ -5,6 +5,7 @@ import com.czx.dao.IndexDao;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Test {
+
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext app = new AnnotationConfigApplicationContext();
 		app.register(AppConfig.class);
@@ -14,4 +15,5 @@ public class Test {
 		IndexDao indexDao = (IndexDao) app.getBean("indexDaoImpl");
 		indexDao.query();
 	}
+
 }

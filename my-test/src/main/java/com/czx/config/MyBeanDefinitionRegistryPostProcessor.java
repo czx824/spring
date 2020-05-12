@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 		System.out.println("MyBeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry()");
@@ -17,4 +18,5 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		System.out.println("MyBeanDefinitionRegistryPostProcessor.postProcessBeanFactory()");
 	}
+
 }
