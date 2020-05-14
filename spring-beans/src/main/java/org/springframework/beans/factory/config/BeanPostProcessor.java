@@ -20,6 +20,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
 /**
+ * BeanPostProcessor是spring框架提供的其中一个扩展类的点
+ * 通过实现BeanPostProcessor接口，程序员就可以插手bean的实例化过程，从而减轻BeanFactory的负担
+ * bean工厂里面可以添加多个BeanPostProcessor，形成List列表，依次执行
  * Factory hook that allows for custom modification of new bean instances,
  * e.g. checking for marker interfaces or wrapping them with proxies.
  *
