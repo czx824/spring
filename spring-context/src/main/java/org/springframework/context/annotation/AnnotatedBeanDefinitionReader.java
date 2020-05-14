@@ -221,14 +221,15 @@ public class AnnotatedBeanDefinitionReader {
 		}
 
 		abd.setInstanceSupplier(instanceSupplier);
+		//得到类的作用域
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
-		//解析别名等、beanName生成器可以自定义
+		//通过beanNameGenerator生成类的名字，可以自定义
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
 		//解析通用的注解，为bd赋值，配置类没有这些注解为什么这里要解析赋值呢？因为注册单个普通类也是调用这个方法doRegisterBean
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
-		//其他地方手动调用doRegisterBean的时候可以传入qualifiers直接为bd赋值
+		//其他地方手动调用doRegisterBean的时候可以传入限定符qualifiers解析直接为bd赋值
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
@@ -246,8 +247,11 @@ public class AnnotatedBeanDefinitionReader {
 			customizer.customize(abd);
 		}
 
+		//把beanName和bd封装了一下，没有其他作用
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+		//scopeProxyMode 代理模型需要结合web去理解
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
+		//把上述bd注册到bean工厂中去
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}
 
