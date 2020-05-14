@@ -66,7 +66,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		/*AnnotationConfigApplicationContext的父类GenericApplicationContext本身实现了BeanDefinitionRegistry接口，
 		所以可以把自身当成参数BeanDefinitionRegistry传入AnnotatedBeanDefinitionReader的构造方法中*/
 		this.reader = new AnnotatedBeanDefinitionReader(this);
-		//实例化一个类路径bd扫描器
+		//初始化一个类路径bd扫描器
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
@@ -87,6 +87,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
+		//这里由于有父类，故而会先调用父类的构造方法，然后才会调用自己的构造方法
+		//在自己的构造方法中初始化一个读取器和扫描器
 		this();
 		register(annotatedClasses);
 		refresh();
