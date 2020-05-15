@@ -505,6 +505,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				//调用bean工厂后置处理器
+				//委托多个实现了BeanFactoryPostProcessor或者实现了BeanDefinitionRegistryPostProcessor接口的类来做一些事情
+				//其中ConfigurationClassPostProcessor就是实现了BeanDefinitionRegistryPostProcessor接口的spring内部的类
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory);
 
