@@ -1,7 +1,7 @@
 package com.czx.test;
 
 import com.czx.config.AppConfig;
-import com.czx.dao.IndexDao;
+import com.czx.dao.UserDao;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Test {
@@ -12,8 +12,10 @@ public class Test {
 //		app.addBeanFactoryPostProcessor(new MyBeanFactoryPostProcessor());
 //		app.addBeanFactoryPostProcessor(new MyBeanDefinitionRegistryPostProcessor());
 		app.refresh();
-		IndexDao indexDao = (IndexDao) app.getBean("indexDaoImpl");
-		indexDao.query();
+//		IndexDao indexDao = (IndexDao) app.getBean("indexDaoImpl");
+//		indexDao.query();
+		UserDao userDao = (UserDao) app.getBean("userDao");
+		userDao.query();
 	}
 
 }
