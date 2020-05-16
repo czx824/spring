@@ -11,6 +11,7 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        //这里的UserDao.class和beanName是通过扫描得到，然后循环注册bd
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(UserDao.class);
         GenericBeanDefinition beanDefinition = (GenericBeanDefinition) beanDefinitionBuilder.getBeanDefinition();
         //因为FactoryBean需要一个接口去进行代理
