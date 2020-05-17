@@ -1,6 +1,6 @@
 package com.czx.config;
 
-import com.czx.com.czx.anno.Select;
+import com.czx.anno.Select;
 import org.springframework.beans.factory.FactoryBean;
 
 import java.lang.reflect.InvocationHandler;

@@ -1,4 +1,4 @@
-package com.czx.com.czx.anno;
+package com.czx.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

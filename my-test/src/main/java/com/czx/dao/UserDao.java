@@ -1,6 +1,6 @@
 package com.czx.dao;
 
-import com.czx.com.czx.anno.Select;
+import com.czx.anno.Select;
 
 /**
  * 模拟mybatis 通过实现ImportBeanDefinitionRegistrar接口完成
