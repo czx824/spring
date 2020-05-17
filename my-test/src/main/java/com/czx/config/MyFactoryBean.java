@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+@SuppressWarnings("rawtypes")
 public class MyFactoryBean implements FactoryBean, InvocationHandler {
 
     private Class clazz;
@@ -21,17 +22,13 @@ public class MyFactoryBean implements FactoryBean, InvocationHandler {
     }
 
     @Override
-    public Class<?> getObjectType() {
+    public Class getObjectType() {
         return clazz;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Class[] clazzs = new Class[args.length];
-        for (int i = 0; i < args.length; i++) {
-            clazzs[i] = args[i].getClass();
-        }
-        Method methodInf = proxy.getClass().getInterfaces()[0].getMethod(method.getName(), clazzs);
+        Method methodInf = proxy.getClass().getInterfaces()[0].getMethod(method.getName(), method.getParameterTypes());
         Select select = methodInf.getDeclaredAnnotation(Select.class);
         System.out.println(select.value());
         return null;
