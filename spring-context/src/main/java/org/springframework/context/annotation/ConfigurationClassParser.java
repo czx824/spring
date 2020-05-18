@@ -257,12 +257,14 @@ class ConfigurationClassParser {
 			}
 		}
 
+		//处理@ComponentScan注解
 		// Process any @ComponentScan annotations
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
 		if (!componentScans.isEmpty() &&
 				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) {
 			for (AnnotationAttributes componentScan : componentScans) {
+				//第一步先扫描包，把扫到的类先注册
 				// The config class is annotated with @ComponentScan -> perform the scan immediately
 				Set<BeanDefinitionHolder> scannedBeanDefinitions =
 						this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
@@ -272,6 +274,9 @@ class ConfigurationClassParser {
 					if (bdCand == null) {
 						bdCand = holder.getBeanDefinition();
 					}
+					//第二步循环扫描的到类，看这些类是否加了要处理的注解
+					//判断是否加了@Configuration、@Component、@ComponentScan、@Import、@ImportResource
+					//如果加了，然后再递归解析这些注解
 					if (ConfigurationClassUtils.checkConfigurationClassCandidate(bdCand, this.metadataReaderFactory)) {
 						parse(bdCand.getBeanClassName(), holder.getBeanName());
 					}
@@ -279,6 +284,11 @@ class ConfigurationClassParser {
 			}
 		}
 
+		//处理@Import注解
+		//第一种情况：如果是ImportSelector，则递归处理ImportSelector.selectImports()方法返回的类是否加了Import注解
+		//直到最后一层ImportSelector.selectImports()方法返回的类是一个没有加Import注解的时候，
+		// 再去递归调用processConfigurationClass（）方法，处理@Component、@ComponentScan、@ImportResource
+		//第二种情况：如果是ImportBeanDefinitionRegistrar，则通过反射new出对象放到importBeanDefinitionRegistrars后面再处理
 		// Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), true);
 
@@ -613,6 +623,8 @@ class ConfigurationClassParser {
 						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata());
 					}
 					else {
+						//直到Import里面引用的不是一个加了@Import注解的类时，
+						//然后再递归调用processConfigurationClass方法解析其他注解
 						// Candidate class not an ImportSelector or ImportBeanDefinitionRegistrar ->
 						// process it as an @Configuration class
 						this.importStack.registerImport(
