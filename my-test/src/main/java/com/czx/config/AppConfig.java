@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("com.czx")
-@Import(MyImportSelector.class)
+@Import(MyImportBeanDefinitionRegistrar.class)
 public class AppConfig {
 }
